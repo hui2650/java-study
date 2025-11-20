@@ -98,5 +98,15 @@ public class DataType {
 				""";
 		System.out.println(str4);
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 }
