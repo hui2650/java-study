@@ -1,0 +1,16 @@
+.idea/
+*.iml
+
+.project
+.classpath
+.settings/
+.metadata/
+
+.vscode/
+
+out/
+bin/
+target/
+
+.DS_Store
+Thumbs.db
