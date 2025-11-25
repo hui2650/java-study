@@ -1,4 +1,4 @@
-package ch02;
+package ch_02;
 
 public class Print {
 	public static void main(String[] args) {

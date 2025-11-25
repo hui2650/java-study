@@ -53,6 +53,5 @@ public class ArrayExample2 {
 		int[] arr2 = { 1, 6, 2, 10, 5, 8, 4, 3, 9, 7 };
 		
 		
-		
 	}
 }

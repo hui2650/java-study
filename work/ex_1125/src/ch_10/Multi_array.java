@@ -1,0 +1,133 @@
+package ch_10;
+
+import java.util.Random;
+
+public class Multi_array {
+
+	public static void main(String[] args) {
+		// 2차원 배열의 생성
+		int[][] scores = { { 80, 90, 96 }, { 76, 88 } };
+
+		// 2차원 배열의 길이?
+		System.out.println(scores.length); // 2
+
+		// 첫번째 요소의 길이
+		// scores[0] = {80,90,96};
+		System.out.println(scores[0].length); // 3
+
+		// 두번째 요소의 길이
+		// scores[1] = {76,88}
+		System.out.println(scores[1].length); // 2
+
+		// 2차원 배열에서 데이터에 접근하는 방법
+		// 배열명[2차원 배열의 요소의 index][요소에서 데이터의 index]
+
+		System.out.println(scores[0][2]); // 96
+
+		// 2차원 배열의첫번째 요소의 평균 구하기
+		// sum 이랑 avg 만들어야함
+
+		int sum = 0;
+		int avg = 0;
+
+		for (int i = 0; i < scores[0].length; i++) {
+			sum += scores[0][i];
+		}
+		System.out.println(sum);
+		avg = sum / scores[0].length;
+		System.out.println(avg);
+
+		// 2차원 배열의 생성
+		// 자료형[][] 변수명 = new 자료형 [길이][1차원 배열의 길이];
+
+		int[][] arr = new int[3][3];
+
+		// 1차원 배열의 길이는 미리 지정하지 않아도 된다
+		// 자료형[][] 변수명 = new 자료형[길이][];
+
+		int[][] ar = new int[3][];
+		// 2차원 배열의 각각의 요소의 길이를 따로 설정할 수 있다
+		ar[0] = new int[2];
+		ar[1] = new int[3];
+		ar[2] = new int[1];
+
+		int n = 0;
+		for (int i = 0; i < ar.length; i++) {
+			for (int j = 0; j < ar[i].length; j++) {
+				ar[i][j] = n += 100;
+				System.out.println(ar[i][j] + " ");
+			}
+			System.out.println();
+		}
+
+		// 각 반의 학생들의 점수 저장을 위한 2차원 배열 생성
+		// 반은 3개고 학생수는 1반 4명, 2반 2명, 3반 6명
+
+		int[][] mathscores = new int[3][];
+
+		mathscores[0] = new int[4];
+		mathscores[1] = new int[2];
+		mathscores[2] = new int[6];
+
+		// 각반의 학생들의 점수를 난수로 넣기
+
+		for (int i = 0; i < mathscores.length; i++) {
+			for (int j = 0; j < mathscores[i].length; j++) {
+				int randomScore = new Random().nextInt(100) + 1;
+				mathscores[i][j] = randomScore;
+				System.out.printf("%d반 %d번 점수: ",i+1,j+1);
+				System.out.print(mathscores[i][j] + "점 / ");
+			}
+			System.out.println();
+		}
+		
+		// 평균 구하기
+		
+//		int sum1 = 0;
+//		int sum2 = 0;
+//		int sum3 = 0;
+//		int avg1 = 0;
+//		int avg2 = 0;
+//		int avg3 = 0;
+//
+//		// 각 반의 평균 구하기
+//		// 1반
+//		for (int i = 0; i < mathscores[0].length; i++) {
+//			sum1 += mathscores[0][i];
+//		}
+//		// System.out.println(sum1);
+//		avg1 = sum1 / mathscores[0].length;
+//		System.out.printf("1반 평균: %d점\n", avg1);
+//
+//		// 2반
+//		for (int i = 0; i < mathscores[1].length; i++) {
+//			sum2 += mathscores[1][i];
+//		}
+//		// System.out.println(sum2);
+//		avg2 = sum2 / mathscores[1].length;
+//		System.out.printf("2반 평균: %d점\n", avg2);
+//		// 3반
+//		for (int i = 0; i < mathscores[2].length; i++) {
+//			sum3 += mathscores[2][i];
+//		}
+//		// System.out.println(sum3);
+//		avg3 = sum3 / mathscores[2].length;
+//		System.out.printf("3반 평균: %d점\n", avg3);
+		
+		
+		
+		// 평균 구하기 위에걸 이중 for문로
+		for(int i = 0; i < mathscores.length; i++) {
+	         int total = 0;
+	         
+	         for(int j = 0; j < mathscores[i].length;j++) {
+	            total += mathscores[i][j];
+	         }
+	         
+	         double avg2 = (double)total/mathscores[i].length;
+	         System.out.println((i+1)+"반의 평균 : " + avg2);
+	      }
+
+	}// 메인
+}// 클래스
+

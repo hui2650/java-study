@@ -1,4 +1,4 @@
-package ch02;
+package ch_02;
 
 //import
 //다른 패키지에 있는 클래스를 불러올 때 사용
