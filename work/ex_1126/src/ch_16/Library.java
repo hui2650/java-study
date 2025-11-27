@@ -12,6 +12,8 @@ public class Library {
 	
 	public Library(int leng) {
 		books = new Book[leng];
+		//Book 객체가 들어갈 칸을 leng개 만드는 것 [ null, null, null ]
+		//객체를 만든것이 X
 		count = 0;
 	}
 	
@@ -34,6 +36,11 @@ public class Library {
 	//	void printAllBooks()
 	//	저장된 모든 책의 정보 출력하기
 	public void printAllBooks() {
+		if (count == 0) {
+			System.out.println("등록된 책이 없습니다.");
+			return;
+		}
+		System.out.println("==도서 목록==");
 		for(int i = 0; i < count; i++) {
 			books[i].printInfo();
 		}

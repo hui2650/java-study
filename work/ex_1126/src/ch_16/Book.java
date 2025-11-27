@@ -15,3 +15,4 @@ public class Book {
 		System.out.println("제목 : " + this.title + ", " + "저자 : " + this.author);
 	}
 }
+ 
