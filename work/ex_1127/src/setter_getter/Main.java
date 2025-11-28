@@ -27,5 +27,7 @@ public class Main {
 		System.out.println(s.getEng());
 		System.out.println(s.getMath());
 		
+
+		
 	}
 }
