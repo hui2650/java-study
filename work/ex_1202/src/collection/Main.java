@@ -126,6 +126,17 @@ public class Main {
 		
 		System.out.println(longWords); 
 		
+		// 가장 높은 점수를 받은 학생의 이름과 점수 출력하기
 		
+		Student top = list.get(0);
+		
+		
+		for(Student s : list) {
+			if(top.score < s.score ) {
+				top = s;
+			}
+		}
+		
+		System.out.println(top);
 	}
 }

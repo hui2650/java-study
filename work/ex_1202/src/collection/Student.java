@@ -9,5 +9,10 @@ public class Student {
 		this.score = score;
 	}
 	
+	@Override
+	public String toString() {
+	    return "이름: " + name + ", 점수: " + score;
+	}
+	
 	
 }
