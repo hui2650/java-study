@@ -1,14 +1,13 @@
-package com.example.demo;
+package com.korea.layer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-
-public class DemoApplication {
+public class LayerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(LayerApplication.class, args);
 	}
 
 }
