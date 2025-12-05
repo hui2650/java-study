@@ -76,10 +76,6 @@ public class TestController {
 		// 다만 헤더 HTTP Status를 조작할 수 있다는 점이 다르다
 	}
 
-	
-	
-	
-	
-	
+
 	
 }
