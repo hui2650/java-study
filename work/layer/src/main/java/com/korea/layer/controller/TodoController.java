@@ -140,19 +140,9 @@ public class TodoController {
 	
 	//할일을 수정하기 위한 updateTodo메서드 작성하기
 	//수정하려는 내용을 사용자로부터 받아서 처리
-	
-	  //임시유저 "temporary-user"
+
 	   //update from Todo set title="수정할내용" where id = ??
 	   //id와 title을 받아야함
-
-//		DTO → TodoEntity
-//		service.update(entity) 호출
-//		이때 entity.getId()로 어떤 Todo인지 찾음
-//		기존 데이터를 DB에서 꺼내서, 수정된 값으로 덮어쓰기
-//		저장
-//		해당 user의 전체 리스트 다시 조회
-//		List<Entity> → List<DTO>
-//		ResponseDTO로 감싸서 ResponseEntity로 반환
 	
 	// 수정하기
 	@PutMapping

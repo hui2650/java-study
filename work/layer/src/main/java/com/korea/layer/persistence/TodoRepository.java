@@ -26,7 +26,8 @@ public interface TodoRepository extends JpaRepository<TodoEntity, String> {
 	// save(S entity) : 엔티티를 데이터베이스에 저장하거나 업데이트 한다
 	// findById(ID id) : 기본키를 이용하여 엔티티를 조회한다
 	// findAll() : 데이터베이스의 모든 엔티티를 조회한다
-	// deleteById(Id id) : 기본키를 이용하여 엔티티를 삭제한다
+	// s
+	// 기본키를 이용하여 엔티티를 삭제한다
 	
 	// 많이 쓰는 접두사
 	// findBy
