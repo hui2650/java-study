@@ -24,6 +24,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="Todo") // 이 엔티티가 어떤 테이블과 매핑될지를 지정한다
 // 우리가 Todo테이블을 만들지는 않았지만 JPA가 엔티티를 보고 테이블을 자동생성해준다
+
 public class TodoEntity {
 	@Id // 이 필드가 엔티티의 기본 키(PK)이다
 	// JPA에서는 모든 엔티티는 최소 1개의 @ID가 필요하다
@@ -33,6 +34,5 @@ public class TodoEntity {
 	private String userId; //이 객체를 생성한 유저의 id
 	private String title; //Todo 테이블 ex) 운동하기
 	private boolean done; // 완료 여부
-	
 	
 }

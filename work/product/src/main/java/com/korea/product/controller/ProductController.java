@@ -22,9 +22,13 @@ public class ProductController {
 //	- 서비스의 createProduct()를 호출한다
 //	- 결과로 저장된 상품을 DTO로 반환한다.
 	
-//	@PostMapping
-//	public ProductDTO createProduct(@RequestBody ProductTodo dto) {	
-//	}
+	@PostMapping
+	public ProductDTO createProduct(@RequestBody ProductTodo dto) {	
+		
+		Product Entity = ProductDTO.toEntity(dto);
+		
+		
+	}
 	
 	
 }
