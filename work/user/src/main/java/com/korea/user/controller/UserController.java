@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.korea.user.dto.UserDTO;
@@ -72,18 +73,42 @@ public class UserController {
 	}
 	
 	//ID를 통해 이름과 이메일 수정하기
-//	@PutMapping
-//	public ResponseEntity<?> updateUser(){
-//		
-//	}
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateUser(@PathVariable("id") int id, @RequestBody UserDTO dto){
+				
+		// DTO -> Entity 변환
+		UserEntity entity = UserDTO.toEntity(dto);
+		
+		entity.setId(id);
+		
+		List<UserEntity> entities = service.updateUser(entity);
+		
+		List<UserDTO> dtos = new ArrayList<>();
+		
+		for(UserEntity e : entities) {
+			dtos.add(new UserDTO(e));
+		}
 	
-//	@DeleteMapping("/{id}")
+		return ResponseEntity.ok().body(dtos);
+		
+	}
+	
+	@DeleteMapping("/{id}")
 	//삭제에 성공하면 "User deleted successfully"
 	//실패하면 .status(404).body("user not found with id " + id)
-//	public ResponseEntity<?> deleteUser(){
-//		
-//	}
-	
+	public ResponseEntity<?> deleteUser(@PathVariable("id") int id){
+		
+		boolean deleted = service.deleteUser(id);
+		
+	    if (deleted) {
+	        return ResponseEntity.ok("User deleted successfully");
+	    } else {
+	        return ResponseEntity
+	                .status(404)
+	                .body("User not found with id " + id);
+	    }
+		
+	}	
 	
 	
 	

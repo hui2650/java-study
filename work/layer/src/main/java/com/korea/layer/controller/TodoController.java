@@ -145,7 +145,7 @@ public class TodoController {
 	   //id와 title을 받아야함
 	
 	// 수정하기
-	@PutMapping
+	@PutMapping("/{id")
 	public ResponseEntity<?> updateTodo(@RequestBody TodoDTO dto) {
 		
 		String tmporaryUserId = "tmporary-user";

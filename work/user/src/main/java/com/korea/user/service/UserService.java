@@ -50,19 +50,29 @@ public class UserService {
 	}
 	
 	//ID를 통해 이름과 이메일 수정하기
-//	public List<UserEntity> updateUser() {
-//		
-//	    
-//	   
-//	}
+	public List<UserEntity> updateUser(UserEntity entity) {
+		
+		// 유저 찾기
+		UserEntity target = repository.findById(entity.getId())
+		        .orElseThrow(() -> new RuntimeException("User not found"));
+
+		    // 수정할 값 반영 (이름, 이메일만 수정)
+		    target.setName(entity.getName());
+		    target.setEmail(entity.getEmail());
+
+		    // 저장
+		    repository.save(target);
+
+		    //수정 후 전체 목록 리턴
+		    return repository.findAll();
+	   
+	}
 	
-	// 해당 ID를 가진 유저 삭제
-//	public List<UserEntity> deleteUser() {
-//		
-//		
-//		
-//	}
-	
+	// 해당 ID를 가진 유저 삭제	public List<UserEntity> deleteUser(int id) {		UserEntity target = repository.findById(id)
+				.orElseThrow(() -> new RuntimeException("User not found"));				repository.delete(target);
+		
+		return repository.findAll();		
+	}
 	
 	
 	

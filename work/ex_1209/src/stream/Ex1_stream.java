@@ -124,13 +124,21 @@ public class Ex1_stream {
 		
 		// findAny
 		// 스트림 요소에서 아무거나 반환 (무엇이 나올 지는 보장 불가능)
-		
 		Optional<String> anyName = names.stream()
 									.filter(x -> x.length() == 2)
 									.findAny();
 		
 		System.out.println(anyName);
 		System.out.println("--------------------------------");
+		
+		// reduce
+		// 값 누적
+		int sum = nums.stream()
+					.reduce(0, (acc,n)-> acc + n);
+					
+		System.out.println(sum);
+		System.out.println("--------------------------------");
+		
 		
 		
 		
