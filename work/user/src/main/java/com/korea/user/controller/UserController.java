@@ -46,11 +46,6 @@ public class UserController {
 
 	}
 	
-	//UserController
-	//메서드명
-	//getAllUsers()
-	//HTTP메서드 : GET
-	
 	
 	//모든 사용자 조회
 	@GetMapping("/read")
