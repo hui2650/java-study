@@ -24,13 +24,7 @@ public class UserService {
 	public List<UserEntity> create(UserEntity entity){
 		
 		//유효성검사
-	    if (entity == null) {
-	        throw new RuntimeException("Entity cannot be null");
-	    }
-	    if (entity.getEmail() == null) {
-	        throw new RuntimeException("Unknown user");
-	    }
-	    
+		validate(entity);
 	    
 	    repository.save(entity);
 	    
@@ -52,6 +46,9 @@ public class UserService {
 	//ID를 통해 이름과 이메일 수정하기
 	public List<UserEntity> updateUser(UserEntity entity) {
 		
+		//유효성검사
+		validate(entity);
+		
 		// 유저 찾기
 		UserEntity target = repository.findById(entity.getId())
 		        .orElseThrow(() -> new RuntimeException("User not found"));
@@ -68,16 +65,27 @@ public class UserService {
 	   
 	}
 	
-	// 해당 ID를 가진 유저 삭제	public List<UserEntity> deleteUser(int id) {		UserEntity target = repository.findById(id)
-				.orElseThrow(() -> new RuntimeException("User not found"));				repository.delete(target);
+	// 해당 ID를 가진 유저 삭제	public boolean deleteUser(int id) {
 		
-		return repository.findAll();		
+		if (!repository.existsById(id)) {
+	        return false;
+	    }
+	    repository.deleteById(id);
+	    return true;
 	}
 	
-	
-	
-	
-	
-	
-	
+	private void validate(final UserEntity entity) {
+	    if (entity == null) {
+	        throw new RuntimeException("Entity cannot be null");
+	    }
+	    if (entity.getEmail() == null) {
+	        throw new RuntimeException("Unknown user");
+	    }
+	}
+
 }
+
+
+	
+	
+

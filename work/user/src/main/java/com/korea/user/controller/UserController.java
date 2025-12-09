@@ -31,12 +31,13 @@ public class UserController {
 	@PostMapping("/create")
 	public ResponseEntity<?> createUser(@RequestBody UserDTO dto){
 		
-		// DTO -> Entity
+		// DTO -> Entity로 변환
 		UserEntity entity = UserDTO.toEntity(dto);
 				
 		//DB 저장후 해당 유저의 entity 리스트 받아오기
 		List<UserEntity> entities = service.create(entity);
 		
+		//Entity -> DTO로 변경 (반복문까지)
 		List<UserDTO> dtos = new ArrayList<>();
 		
 		for(UserEntity e : entities) {
@@ -50,8 +51,9 @@ public class UserController {
 	
 	//모든 사용자 조회
 	@GetMapping("/read")
-	public ResponseEntity<?> getAllUsers(UserDTO dto){
+	public ResponseEntity<?> getAllUsers(){
 		
+		// 바로 서비스 호출
 		 List<UserEntity> users = service.getAllUsers();
 		    return ResponseEntity.ok(users);
 	}
@@ -59,9 +61,11 @@ public class UserController {
 	// 이메일을 통한 사용자 검색
 	@GetMapping("/{email}")
 	public ResponseEntity<?> getUserByEmail(@PathVariable("email") String email){
-				
+		
+		// 서비스 호출
 		List<UserEntity> entities = service.getUserByEmail(email);
 		
+		// Entity-> DTO로 변경 (반복문까지)
 		List<UserDTO> dtos = new ArrayList<>();
 		
 		for(UserEntity e : entities) {
@@ -79,16 +83,19 @@ public class UserController {
 		// DTO -> Entity 변환
 		UserEntity entity = UserDTO.toEntity(dto);
 		
+		// 아이디 지정
 		entity.setId(id);
 		
+		// 서비스 호출
 		List<UserEntity> entities = service.updateUser(entity);
 		
+		// 다시 Entity -> DTO로 변경 (반복문까지)
 		List<UserDTO> dtos = new ArrayList<>();
 		
 		for(UserEntity e : entities) {
 			dtos.add(new UserDTO(e));
 		}
-	
+		
 		return ResponseEntity.ok().body(dtos);
 		
 	}

@@ -3,6 +3,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +54,7 @@ public class TodoController {
 		// 스프링부트가 @Component가 달려잇는 클래스를 스캔해서
 		// (ComponentScan) Map 형태로 객체를 컨테이너에 저장한다
 		String str = service.testService();
+		
 		List<String> list = new ArrayList<String>();
 		list.add(str);
 		ResponseDTO<String> response = ResponseDTO.<String>builder()
@@ -78,18 +80,17 @@ public class TodoController {
 			//엔티티에 임시 유저 아이디 세팅
 			entity.setUserId(tmporaryUserId);
 			
-			// 서비스  레이어의 create메서드를 호출해서, TodoEntity를 데이터베이스에 저장하는 작업을 한다
+			// 서비스  레이어의 create메서드를를 호출해서, TodoEntity를 데이터베이스에 저장하는 작업을 한다
 			// 저장을 한 다음 TodoEntity 객체들을 저장한 List를 반환한다
 
 			//DB 저장하고 해당 유저의 전체 Todo 리스트 받아오기
 			List<TodoEntity> entities = service.create(entity);
 			
 			// 리스트 안에 들어있는 TodoEntity를 TodoDTO 타입으로 변경해서 dtos에 넣는다
-			List<TodoDTO> dtos = new ArrayList<>();
-			
-			for(TodoEntity e : entities) {
-				dtos.add(new TodoDTO(e)); // entity를 dto로 바꿔서 리스트에 추가
-			}
+			List<TodoDTO> dtos = entities.stream()
+						.map(TodoDTO::new)
+						.collect(Collectors.toList());
+		
 			
 			// builder 패턴을 이용해서 dtos를 ResponseDTO에 담아서 ResponseEntity로 반환한다
 			
@@ -121,12 +122,9 @@ public class TodoController {
         List<TodoEntity> entities = service.retrieve(tmporaryUserId);
 		
         // List에 들어있는 Entity들을 DTO로 변환한다 / Entity → DTO 변환
-        
-        List<TodoDTO> dtos = new ArrayList<TodoDTO>();
-        
-        for (TodoEntity e : entities) {
-            dtos.add(new TodoDTO(e));
-        }      
+		List<TodoDTO> dtos = entities.stream()
+				.map(TodoDTO::new)
+				.collect(Collectors.toList());
         
         // ResponseDTO 객체에 담는다
         ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder()
@@ -145,7 +143,7 @@ public class TodoController {
 	   //id와 title을 받아야함
 	
 	// 수정하기
-	@PutMapping("/{id")
+	@PutMapping("/{id}")
 	public ResponseEntity<?> updateTodo(@RequestBody TodoDTO dto) {
 		
 		String tmporaryUserId = "tmporary-user";
@@ -159,11 +157,9 @@ public class TodoController {
 		// 그 다음 서비스 호출
 		List<TodoEntity> entities = service.update(entity);
 		
-		List<TodoDTO> dtos = new ArrayList<TodoDTO>();
-		
-        for (TodoEntity e : entities) {
-            dtos.add(new TodoDTO(e));
-        }      
+		List<TodoDTO> dtos = entities.stream()
+				.map(TodoDTO::new)
+				.collect(Collectors.toList());
         
         ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder()
         		.data(dtos)
@@ -186,11 +182,9 @@ public class TodoController {
 		
 			List<TodoEntity> entities = service.delete(entity);
 			
-			List<TodoDTO> dtos = new ArrayList<TodoDTO>();
-		        
-		        for (TodoEntity e : entities) {
-		            dtos.add(new TodoDTO(e));
-		        }      
+			List<TodoDTO> dtos = entities.stream()
+					.map(TodoDTO::new)
+					.collect(Collectors.toList());  
 		        
 		        // ResponseDTO 객체에 담는다
 		        ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder()
