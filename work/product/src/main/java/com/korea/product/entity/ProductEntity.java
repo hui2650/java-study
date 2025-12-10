@@ -1,5 +1,11 @@
 package com.korea.product.entity;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,6 +34,11 @@ public class ProductEntity {
     private String name;
     private int price;
     private int stock;
-    private String description;
+    
+    @CreationTimestamp
+    private LocalDateTime createTime;
+    
+    @UpdateTimestamp
+    private LocalDateTime updateTime;
 
 }

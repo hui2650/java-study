@@ -1,5 +1,10 @@
 package com.korea.product.dto;
 
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.korea.product.entity.ProductEntity;
 
 import lombok.AllArgsConstructor;
@@ -21,24 +26,27 @@ public class ProductDTO {
 	String name;
 	int price;
 	int stock;
-	String description;
+	@CreationTimestamp
+	LocalDateTime createTime;
+	@UpdateTimestamp
+	LocalDateTime updateTime;
 	
 	  // Entity → DTO
-    public ProductDTO(ProductDTO entity) {
+    public ProductDTO(ProductEntity entity) {
         this.id = entity.getId();
         this.name = entity.getName();
         this.price = entity.getPrice();
         this.stock = entity.getStock();
-        this.description = entity.getDescription();
+        this.createTime = entity.getCreateTime();
+        this.updateTime = entity.getUpdateTime();
     }
     
     public static ProductEntity toEntity(ProductDTO dto) {
     	
 		return ProductEntity.builder()
-                .id(dto.getId())        
                 .name(dto.getName())
+                .price(dto.getPrice())
                 .stock(dto.getStock())
-                .description(dto.getDescription())
                 .build();
 	}
 }

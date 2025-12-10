@@ -1,5 +1,7 @@
 package com.korea.product.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.korea.product.entity.ProductEntity;
@@ -8,7 +10,6 @@ import com.korea.product.persistence.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 
 @RequiredArgsConstructor
@@ -19,29 +20,43 @@ public class ProductService {
 //	- stock <0 예외
 //	- 검증에 통과하면 Repository를 이용해 저장
 	private final ProductRepository repository;
+		public List<ProductEntity> createProduct(ProductEntity entity){
+		
+		repository.save(entity);
+		return repository.findAll();
+			}
 	
-	public ProductEntity createProduct(ProductEntity entity){
+	public List<ProductEntity> getAllProduct(){
+		 List<ProductEntity> entities = repository.findAll();
+		 return entities;
+	}
+	
+	
+	public List<ProductEntity> updateProduct(ProductEntity entity){
 		
-		if(entity.getName() == null || entity.getName() == "") {
-			log.warn("Entity cannot be null.");
-			throw new RuntimeException("Entity cannot be null");
-		}
+		ProductEntity target = repository.findById(entity.getId())
+				.orElseThrow(() -> new RuntimeException("User not found"));
 		
-		if(entity.getPrice() < 0) {
-			log.warn("Entity cannot be null.");
-			throw new RuntimeException("Entity cannot be null");
-		}
+		target.setName(entity.getName());
+		target.setPrice(entity.getPrice());
+		target.setStock(entity.getStock());
 		
-		if(entity.getStock() < 0) {
-			log.warn("Entity cannot be null.");
-			throw new RuntimeException("Entity cannot be null");
-		}
+		repository.save(target);
 		
-		ProductEntity saved = repository.save(entity);
-		log.info("Product saved.");
-		
-		 return saved;
+		return repository.findAll();
 		
 	}
+	
+	public List<ProductEntity> deleteProduct(int id){
+		ProductEntity target = repository.findById(id)
+				.orElseThrow(() -> new RuntimeException("User not found"));
+		
+		repository.deleteById(id);
+		
+		return repository.findAll();
+		
+	}
+	
+	
 
 }
