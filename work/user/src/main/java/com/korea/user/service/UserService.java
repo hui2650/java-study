@@ -9,9 +9,6 @@ import com.korea.user.model.UserEntity;
 import com.korea.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;   
-
-@Slf4j
 
 @Service
 @RequiredArgsConstructor

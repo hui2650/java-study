@@ -89,21 +89,22 @@ public class TodoService {
 		return retrieve(entity.getUserId());
 	}
 	
-	public List<TodoEntity> delete(TodoEntity entity) {
+	public List<TodoEntity> delete(String id) {
 		
-		validate(entity);
-		
-		Optional<TodoEntity> original = repository.findById(entity.getId());
+		 TodoEntity entity = repository.findById(id)
+		            .orElseThrow(() -> new RuntimeException("Todo not found"));
 
-	    if (!original.isPresent()) {
-	        throw new RuntimeException("Todo not found");
-	    }
-		
-		repository.deleteById(entity.getId());
-		
-		return retrieve(entity.getUserId());
-		
+		 	//해당 id가 포함된 데이터 삭제
+		    repository.deleteById(id);
+
+		    // 이 Todo가 속해있던 userId 기준으로 다시 전체조회
+		    return retrieve(entity.getUserId());
+
 	}
+		
+		
+		
+
 	
 	//공통 검사 함수 분리
 	private void validate(final TodoEntity entity) {

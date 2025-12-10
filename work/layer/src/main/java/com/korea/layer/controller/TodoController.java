@@ -7,8 +7,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,9 +25,11 @@ import com.korea.layer.service.TodoService;
 
 import lombok.Builder;
 
+@CrossOrigin(originPatterns = "*", allowCredentials = "false")
+//originPatterns = "*" 모든 출처를 허용하겠다 -> 어느 도메인에서 오든 다 허용
+
 @RestController
 @RequestMapping("todo")
-
 public class TodoController {
 	//해야할 일 api 만들 것이다.
 	
@@ -113,8 +117,8 @@ public class TodoController {
 	//조회하기
 	@GetMapping("/retrieve")
 	public ResponseEntity<?> retrieveTodoList() {
-		   //어떤 한 유저가 만든 할일에 대해서 모두 조회
-		   //임시유저 : tmporary-user
+		//어떤 한 유저가 만든 할일에 대해서 모두 조회
+		//임시유저 : tmporary-user
 		
 		String tmporaryUserId = "tmporary-user";
 		
@@ -144,14 +148,15 @@ public class TodoController {
 	
 	// 수정하기
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateTodo(@RequestBody TodoDTO dto) {
+	public ResponseEntity<?> updateTodo(@PathVariable("id") String id, @RequestBody TodoDTO dto) {
 		
 		String tmporaryUserId = "tmporary-user";
 		
 		// DTO -> Entity 변환
 		TodoEntity entity = TodoDTO.toEntity(dto);
 		
-		//// 먼저 이 Todo가 어떤 유저의 데이터인지 알려주고
+		// 먼저 이 Todo가 어떤 유저의 데이터인지 알려주고
+		entity.setId(id);
 		entity.setUserId(tmporaryUserId);
 		
 		// 그 다음 서비스 호출
@@ -170,17 +175,10 @@ public class TodoController {
 	}
 	
 	//삭제하기
-	@DeleteMapping("/delete")
-	public ResponseEntity<?> deleteTodo(@RequestBody TodoDTO dto){
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteTodo(@PathVariable("id") String id){
 		
-		String tmporaryUserId = "tmporary-user";
-		
-		// DTO -> Entity 변환
-		TodoEntity entity = TodoDTO.toEntity(dto);
-		
-			entity.setUserId(tmporaryUserId);
-		
-			List<TodoEntity> entities = service.delete(entity);
+			List<TodoEntity> entities = service.delete(id);
 			
 			List<TodoDTO> dtos = entities.stream()
 					.map(TodoDTO::new)
