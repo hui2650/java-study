@@ -18,6 +18,10 @@ import com.korea.product.dto.ResponseDTO;
 import com.korea.product.entity.ProductEntity;
 import com.korea.product.service.ProductService;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+@CrossOrigin(originPatterns = "*", allowCredentials = "false") // 또는 실제 프론트 주소
+
 @RestController
 @RequestMapping("product")
 public class ProductController {
@@ -28,74 +32,46 @@ public class ProductController {
 		this.service = service;
 	}
 		@PostMapping("/create")	public ResponseEntity<?> createProduct(@RequestBody ProductDTO dto) {	
-				ProductEntity entity = ProductDTO.toEntity(dto);
+		// dto -> entity 변환		ProductEntity entity = ProductDTO.toEntity(dto);
 		
 		List<ProductEntity> entities = service.createProduct(entity);
-		
-		List<ProductDTO> dtos = entities.stream()
-				.map(ProductDTO::new)
-				.toList();
-		
-		ResponseDTO<ProductDTO> response = ResponseDTO.<ProductDTO>builder()
-				.data(dtos)
-				.build();
-		
-		return ResponseEntity.ok(response);
+		//eToDTO메서드를 호출하면서 db에서 가져온 데이터들이 담긴 List를 인자로 전달한다
+		return ResponseEntity.ok(eToDTO(entities));
 	}
 
 	@GetMapping("/read")
 	public ResponseEntity<?> getAllProduct() {
-		
-//		ProductEntity entity = ProductDTO.toEntity();
 		List<ProductEntity> entities = service.getAllProduct();
-		
-		List<ProductDTO> dtos = entities.stream()
-								.map(ProductDTO::new)
-								.toList();
-		
-		ResponseDTO<ProductDTO> response = ResponseDTO.<ProductDTO>builder()
-										.data(dtos)
-										.build();
-		
-		return ResponseEntity.ok(response);
-		
+		return ResponseEntity.ok(eToDTO(entities));
 	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateProduct(@PathVariable("id") int id, @RequestBody ProductDTO dto){
-		
-		// dto -< entity 변환
+		// dto -> entity 변환
 		ProductEntity entity = ProductDTO.toEntity(dto);
-		
 		entity.setId(id);
 		
 		List<ProductEntity> entities = service.updateProduct(entity);
-		
-		List<ProductDTO> dtos = entities.stream()
-								.map(ProductDTO::new)
-								.toList();
-		
-		ResponseDTO<ProductDTO> response = ResponseDTO.<ProductDTO>builder()
-				.data(dtos)
-				.build();
-
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(eToDTO(entities));
 	}
 	
 	 @DeleteMapping("/{id}")
 	 public ResponseEntity<?> deleteProduct(@PathVariable("id") int id){
-		 
 		 List<ProductEntity> entities = service.deleteProduct(id);
-		 List<ProductDTO> dtos = entities.stream()
-					.map(ProductDTO::new)
-					.toList();
+		 return ResponseEntity.ok(eToDTO(entities));
 
+	 }
+	 
+	 // 공통 메서드 분리 entity -> dto 변환 후 responseDTO로 감싸기
+	 public static ResponseDTO<ProductDTO> eToDTO(List<ProductEntity> entities){
+		
+		List<ProductDTO> dtos = entities.stream()
+				.map(ProductDTO::new)
+				.toList();
 		ResponseDTO<ProductDTO> response = ResponseDTO.<ProductDTO>builder()
-			.data(dtos)
-			.build();
-
-		return ResponseEntity.ok(response);
-
+						.data(dtos)
+						.build();
+		return response;
 	 }
 	
 	

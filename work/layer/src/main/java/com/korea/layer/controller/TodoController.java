@@ -54,7 +54,6 @@ public class TodoController {
 	// localhost:8080/todo/test
 	@GetMapping("/test")
 	public ResponseEntity<?> testTodo() {
-		
 		// 스프링부트가 @Component가 달려잇는 클래스를 스캔해서
 		// (ComponentScan) Map 형태로 객체를 컨테이너에 저장한다
 		String str = service.testService();
@@ -74,38 +73,21 @@ public class TodoController {
 		try {
 			// 로그인 기능이 없기 때문에 임시 유저
 			String tmporaryUserId = "tmporary-user";
-			
 			// DTO -> Entity
 			TodoEntity entity = TodoDTO.toEntity(dto);
-			
 			// 엔티티가 새로운 데이터임을 보장
 			entity.setId(null);
-			
 			//엔티티에 임시 유저 아이디 세팅
 			entity.setUserId(tmporaryUserId);
-			
-			// 서비스  레이어의 create메서드를를 호출해서, TodoEntity를 데이터베이스에 저장하는 작업을 한다
+			// 서비스 레이어의 create메서드를를 호출해서, TodoEntity를 데이터베이스에 저장하는 작업을 한다
 			// 저장을 한 다음 TodoEntity 객체들을 저장한 List를 반환한다
-
+			
 			//DB 저장하고 해당 유저의 전체 Todo 리스트 받아오기
 			List<TodoEntity> entities = service.create(entity);
-			
-			// 리스트 안에 들어있는 TodoEntity를 TodoDTO 타입으로 변경해서 dtos에 넣는다
-			List<TodoDTO> dtos = entities.stream()
-						.map(TodoDTO::new)
-						.collect(Collectors.toList());
-		
-			
-			// builder 패턴을 이용해서 dtos를 ResponseDTO에 담아서 ResponseEntity로 반환한다
-			
-	        ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder()
-	                .data(dtos)
-	                .build();
-	        return ResponseEntity.ok().body(response);
+	        return ResponseEntity.ok(eToDTO(entities));
 
 		} catch (Exception e) {
 			String error = e.getMessage();
-			
 	        ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder()
 	                .error(error)
 	                .build();
@@ -119,78 +101,49 @@ public class TodoController {
 	public ResponseEntity<?> retrieveTodoList() {
 		//어떤 한 유저가 만든 할일에 대해서 모두 조회
 		//임시유저 : tmporary-user
-		
 		String tmporaryUserId = "tmporary-user";
-		
 		// 서비스 호출 → 해당 유저의 전체 TodoList를 반화받아 entities리스트에 저장한다
         List<TodoEntity> entities = service.retrieve(tmporaryUserId);
-		
-        // List에 들어있는 Entity들을 DTO로 변환한다 / Entity → DTO 변환
-		List<TodoDTO> dtos = entities.stream()
-				.map(TodoDTO::new)
-				.collect(Collectors.toList());
-        
-        // ResponseDTO 객체에 담는다
-        ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder()
-        		.data(dtos)
-        		.build();
-       
-        // ResponseEntity로 반환한다
-		return ResponseEntity.ok().body(response);
-		
+        return ResponseEntity.ok(eToDTO(entities));
 	}
 	
 	//할일을 수정하기 위한 updateTodo메서드 작성하기
 	//수정하려는 내용을 사용자로부터 받아서 처리
-
-	   //update from Todo set title="수정할내용" where id = ??
-	   //id와 title을 받아야함
+	//update from Todo set title="수정할내용" where id = ??
+	//id와 title을 받아야함
 	
 	// 수정하기
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateTodo(@PathVariable("id") String id, @RequestBody TodoDTO dto) {
-		
 		String tmporaryUserId = "tmporary-user";
-		
 		// DTO -> Entity 변환
 		TodoEntity entity = TodoDTO.toEntity(dto);
-		
 		// 먼저 이 Todo가 어떤 유저의 데이터인지 알려주고
 		entity.setId(id);
 		entity.setUserId(tmporaryUserId);
-		
 		// 그 다음 서비스 호출
 		List<TodoEntity> entities = service.update(entity);
-		
-		List<TodoDTO> dtos = entities.stream()
-				.map(TodoDTO::new)
-				.collect(Collectors.toList());
-        
-        ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder()
-        		.data(dtos)
-        		.build();
-       
-		return ResponseEntity.ok().body(response);        
-		
+		return ResponseEntity.ok(eToDTO(entities)); 
 	}
 	
 	//삭제하기
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteTodo(@PathVariable("id") String id){
-		
 			List<TodoEntity> entities = service.delete(id);
-			
-			List<TodoDTO> dtos = entities.stream()
-					.map(TodoDTO::new)
-					.collect(Collectors.toList());  
-		        
-		        // ResponseDTO 객체에 담는다
-		        ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder()
-		        		.data(dtos)
-		        		.build();
-		       
-		        // ResponseEntity로 반환한다
-				return ResponseEntity.ok().body(response);
+			return ResponseEntity.ok(eToDTO(entities));
+	}
+	
+	// 공통 메서드 분리 entity -> dto 변환 후 responseDTO로 감싸기
+	public static ResponseDTO<TodoDTO> eToDTO(List<TodoEntity> entities){
+		 // List에 들어있는 Entity들을 DTO로 변환한다 / Entity → DTO 변환
+		List<TodoDTO> dtos = entities.stream()
+				.map(TodoDTO::new)
+				.collect(Collectors.toList());  
+		// builder 패턴을 이용해서 dtos를 ResponseDTO에 담아서 ResponseEntity로 반환한다
+        ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder()
+        		.data(dtos)
+        		.build();
+		return response;
 	}
 	
 	

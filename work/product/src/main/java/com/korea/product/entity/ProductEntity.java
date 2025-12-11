@@ -36,9 +36,13 @@ public class ProductEntity {
     private int stock;
     
     @CreationTimestamp
-    private LocalDateTime createTime;
+    // Insert 쿼리가 발생했을때  현 시간 값을 적용시켜준다
+    
+    private LocalDateTime registerTime;
     
     @UpdateTimestamp
+    // Update 쿼리가 발생했을 떄 현재 시간 값을 적용시켜준다 
+    //값이 없으면 CreationTimeStamp같이 생성 시점이 한 번 기록될 수 있다
     private LocalDateTime updateTime;
 
 }

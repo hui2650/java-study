@@ -27,7 +27,7 @@ public class ProductDTO {
 	int price;
 	int stock;
 	@CreationTimestamp
-	LocalDateTime createTime;
+	LocalDateTime registerTime;
 	@UpdateTimestamp
 	LocalDateTime updateTime;
 	
@@ -37,7 +37,7 @@ public class ProductDTO {
         this.name = entity.getName();
         this.price = entity.getPrice();
         this.stock = entity.getStock();
-        this.createTime = entity.getCreateTime();
+        this.registerTime = entity.getRegisterTime();
         this.updateTime = entity.getUpdateTime();
     }
     
