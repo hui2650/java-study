@@ -21,7 +21,8 @@ public class ProductDTO {
 //	- int id
 //	- String name
 //	- int stock
-//	- String description'
+//	- String description
+	 
 	int id;
 	String name;
 	int price;

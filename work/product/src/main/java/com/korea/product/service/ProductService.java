@@ -21,7 +21,6 @@ public class ProductService {
 //	- 검증에 통과하면 Repository를 이용해 저장
 	private final ProductRepository repository;
 		public List<ProductEntity> createProduct(ProductEntity entity){
-		
 		repository.save(entity);
 		return repository.findAll();
 			}
@@ -31,11 +30,10 @@ public class ProductService {
 		 return entities;
 	}
 	
-	
 	public List<ProductEntity> updateProduct(ProductEntity entity){
 		
 		ProductEntity target = repository.findById(entity.getId())
-				.orElseThrow(() -> new RuntimeException("User not found"));
+				.orElseThrow(()-> new RuntimeException("사용자를 찾을 수 없습니다"));
 		
 		target.setName(entity.getName());
 		target.setPrice(entity.getPrice());
@@ -48,6 +46,8 @@ public class ProductService {
 	}
 	
 	public List<ProductEntity> deleteProduct(int id){
+		// findById는 Optional을 반환
+		// id 검증
 		ProductEntity target = repository.findById(id)
 				.orElseThrow(() -> new RuntimeException("User not found"));
 		

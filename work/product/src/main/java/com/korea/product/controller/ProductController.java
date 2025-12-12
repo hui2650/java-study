@@ -26,20 +26,20 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @RequestMapping("product")
 public class ProductController {
 	
-	 private ProductService service;
+	private ProductService service;
 	 
 	public ProductController (ProductService service){
 		this.service = service;
 	}
-		@PostMapping("/create")	public ResponseEntity<?> createProduct(@RequestBody ProductDTO dto) {	
+		@PostMapping	public ResponseEntity<?> createProduct(@RequestBody ProductDTO dto) {	
 		// dto -> entity 변환		ProductEntity entity = ProductDTO.toEntity(dto);
 		
 		List<ProductEntity> entities = service.createProduct(entity);
 		//eToDTO메서드를 호출하면서 db에서 가져온 데이터들이 담긴 List를 인자로 전달한다
 		return ResponseEntity.ok(eToDTO(entities));
-	}
+			}
 
-	@GetMapping("/read")
+	@GetMapping
 	public ResponseEntity<?> getAllProduct() {
 		List<ProductEntity> entities = service.getAllProduct();
 		return ResponseEntity.ok(eToDTO(entities));
@@ -73,9 +73,7 @@ public class ProductController {
 						.build();
 		return response;
 	 }
-	
-	
-	
+
 	
 	
 }
