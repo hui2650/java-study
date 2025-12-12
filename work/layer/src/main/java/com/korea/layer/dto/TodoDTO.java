@@ -37,14 +37,14 @@ public class TodoDTO {
 		this.done = entity.isDone();
 	}
 	
-	// DTO를 Entity 타입으로 바꾸는 toEntity메서드 만들기
+	// DTO를 Entity 타입으로 바꾸는 toEntity 메서드 만들기
 	public static TodoEntity toEntity(TodoDTO dto) {
 		
 		return TodoEntity.builder()
                 .id(dto.getId())        // id가 null이면 JPA가 UUID 알아서 넣어줌
                 .title(dto.getTitle())
                 .done(dto.isDone())
-                .build();
+                .build();	
 	}
 	
 }

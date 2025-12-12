@@ -28,6 +28,7 @@ import lombok.Builder;
 @CrossOrigin(originPatterns = "*", allowCredentials = "false")
 //originPatterns = "*" 모든 출처를 허용하겠다 -> 어느 도메인에서 오든 다 허용
 
+
 @RestController
 @RequestMapping("todo")
 public class TodoController {

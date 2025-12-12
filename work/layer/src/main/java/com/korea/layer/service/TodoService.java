@@ -73,7 +73,7 @@ public class TodoService {
 		// 넘겨받은 entity의 id를 이용해 TodoEntity 한 건을 db로부터 가져온다
 		// 존재하지 않는 엔티티는 업데이트 할 수 없기 때문에
 		
-		Optional<TodoEntity> original = repository.findById(entity.getId());
+		Optional<TodoEntity> original = repository.findById(entity.getId());       
 		
 		if(original.isPresent()) {
 			// 오리지널의 내용을 가져옴
