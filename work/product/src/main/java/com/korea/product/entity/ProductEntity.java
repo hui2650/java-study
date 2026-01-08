@@ -37,7 +37,7 @@ public class ProductEntity {
     
     @CreationTimestamp
     // Insert 쿼리가 발생했을때  현 시간 값을 적용시켜준다
-    
+
     private LocalDateTime registerTime;
     
     @UpdateTimestamp
